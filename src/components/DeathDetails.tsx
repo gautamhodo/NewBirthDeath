@@ -25,17 +25,22 @@ export function DeathDetails({ record, onBack }: DeathDetailsProps) {
           <ArrowLeft className="w-4 h-4" />
           Back to Records
         </Button>
+        </div>
         <div>
+        <div className="space-y-6">
+        <div className="w-100 h-100 bg-secondary p-5  rounded "  
+        style={{backgroundColor:"white",borderTop:"5px solid #0d92ae"}}>
           <h2 className="text-2xl font-bold text-foreground">Death Record Details</h2>
           <p className="text-muted-foreground">Complete information for {record.firstName} {record.lastName}</p>
         </div>
       </div>
-
+      </div>
+      
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="form-section">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <span className="text-primary">📋</span>
+              <span className="text-primary"></span>
               Deceased Information
             </CardTitle>
           </CardHeader>
@@ -74,7 +79,7 @@ export function DeathDetails({ record, onBack }: DeathDetailsProps) {
         <Card className="form-section">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <span className="text-primary">🆔</span>
+              <span className="text-primary"></span>
               ID Proof & Death Information
             </CardTitle>
           </CardHeader>
@@ -106,7 +111,7 @@ export function DeathDetails({ record, onBack }: DeathDetailsProps) {
       <Card className="form-section">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <span className="text-primary">👤</span>
+            <span className="text-primary"></span>
             Informant Information
           </CardTitle>
         </CardHeader>
@@ -135,7 +140,7 @@ export function DeathDetails({ record, onBack }: DeathDetailsProps) {
       <Card className="form-section">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <span className="text-primary">📋</span>
+            <span className="text-primary"></span>
             Registration Information
           </CardTitle>
         </CardHeader>

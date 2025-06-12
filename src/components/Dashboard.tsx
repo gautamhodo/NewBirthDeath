@@ -1,6 +1,19 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText, ScrollText, Users, Award } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Input } from "@/components/ui/input";
+import { BirthDetails } from "@/components/BirthDetails";
+import { DeathDetails } from "@/components/DeathDetails";
+import { DashboardStats } from "@/components/DashboardStats";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 interface DashboardProps {
   setActiveSection: (section: string) => void;
@@ -10,6 +23,9 @@ export function Dashboard({ setActiveSection }: DashboardProps) {
   const [birthCount, setBirthCount] = useState(0);
   const [deathCount, setDeathCount] = useState(0);
   const [recentActivities, setRecentActivities] = useState<any[]>([]);
+  const [selectedRecord, setSelectedRecord] = useState<any>(null);
+  const [dateFilter, setDateFilter] = useState("");
+  const [showRecordTypeDialog, setShowRecordTypeDialog] = useState(false);
 
   useEffect(() => {
     // Get actual counts from localStorage
@@ -26,19 +42,28 @@ export function Dashboard({ setActiveSection }: DashboardProps) {
         name: `${record.firstName} ${record.lastName}`,
         date: new Date(record.registrationDate),
         icon: FileText,
-        color: 'text-blue-600'
+        color: 'text-blue-600',
+        record: record
       })),
       ...deathRecords.map((record: any) => ({
         type: 'death',
         name: `${record.firstName} ${record.lastName}`,
         date: new Date(record.registrationDate),
         icon: ScrollText,
-        color: 'text-red-600'
+        color: 'text-red-600',
+        record: record
       }))
-    ].sort((a, b) => b.date.getTime() - a.date.getTime()).slice(0, 5);
+    ].sort((a, b) => b.date.getTime() - a.date.getTime());
 
-    setRecentActivities(allActivities);
-  }, []);
+    // Apply date filter if set
+    const filteredActivities = dateFilter 
+      ? allActivities.filter(activity => 
+          activity.date.toISOString().split('T')[0] === dateFilter
+        )
+      : allActivities;
+
+    setRecentActivities(filteredActivities.slice(0, 5));
+  }, [dateFilter]);
 
   const formatTimeAgo = (date: Date) => {
     const now = new Date();
@@ -57,16 +82,28 @@ export function Dashboard({ setActiveSection }: DashboardProps) {
     setActiveSection(action);
   };
 
+  const handleActivityClick = (activity: any) => {
+    setSelectedRecord(activity.record);
+  };
+
+  if (selectedRecord) {
+    if (selectedRecord.type === 'birth') {
+      return <BirthDetails record={selectedRecord} onBack={() => setSelectedRecord(null)} />;
+    } else {
+      return <DeathDetails record={selectedRecord} onBack={() => setSelectedRecord(null)} />;
+    }
+  }
+
   const stats = [
     {
-      title: "Birth Registrations",
+      title: "Total Birth Count",
       value: birthCount.toString(),
       icon: FileText,
       color: "text-blue-600",
       bgColor: "bg-blue-50",
     },
     {
-      title: "Death Registrations",
+      title: "Total Death Count",
       value: deathCount.toString(),
       icon: ScrollText,
       color: "text-red-600",
@@ -90,11 +127,13 @@ export function Dashboard({ setActiveSection }: DashboardProps) {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold text-foreground mb-2">Dashboard</h2>
-        <p className="text-muted-foreground">Overview of registration system statistics</p>
+      <div className="w-100 h-100 bg-secondary p-5  rounded "  style={{backgroundColor:"white",borderTop:"5px solid #0d92ae"}}>
+        <h2 className="text-2xl font-bold text-foreground mb-2 mx-5">Dashboard</h2>
+        <p className="text-muted-foreground mx-5">Overview of registration system statistics</p>
       </div>
-      
+
+      <DashboardStats />
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, index) => (
           <Card key={index} className="hover:shadow-lg transition-shadow">
@@ -116,13 +155,25 @@ export function Dashboard({ setActiveSection }: DashboardProps) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Recent Activities</CardTitle>
+            <div className="flex justify-between items-center">
+              <CardTitle>Recent Activities</CardTitle>
+              <Input
+                type="date"
+                value={dateFilter}
+                onChange={(e) => setDateFilter(e.target.value)}
+                className="w-48"
+              />
+            </div>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               {recentActivities.length > 0 ? (
                 recentActivities.map((activity, index) => (
-                  <div key={index} className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+                  <div 
+                    key={index} 
+                    className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg cursor-pointer hover:bg-muted transition-colors"
+                    onClick={() => handleActivityClick(activity)}
+                  >
                     <activity.icon className={`w-5 h-5 ${activity.color}`} />
                     <div>
                       <p className="font-medium">
@@ -135,7 +186,9 @@ export function Dashboard({ setActiveSection }: DashboardProps) {
                   </div>
                 ))
               ) : (
-                <p className="text-muted-foreground text-center py-4">No recent activities</p>
+                <p className="text-muted-foreground text-center py-4">
+                  {dateFilter ? "No activities found for selected date" : "No recent activities"}
+                </p>
               )}
             </div>
           </CardContent>
@@ -161,13 +214,46 @@ export function Dashboard({ setActiveSection }: DashboardProps) {
                 <ScrollText className="w-6 h-6 mb-2 mx-auto" />
                 <span className="text-sm font-medium">New Death Registration</span>
               </button>
-              <button 
-                onClick={() => handleQuickAction("birth-records")}
-                className="p-4 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/90 transition-colors"
-              >
-                <Users className="w-6 h-6 mb-2 mx-auto" />
-                <span className="text-sm font-medium">View Records</span>
-              </button>
+              <Dialog open={showRecordTypeDialog} onOpenChange={setShowRecordTypeDialog}>
+                <DialogTrigger asChild>
+                  <button 
+                    className="p-4 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/90 transition-colors"
+                  >
+                    <Users className="w-6 h-6 mb-2 mx-auto" />
+                    <span className="text-sm font-medium">View Records</span>
+                  </button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Select Record Type</DialogTitle>
+                    <DialogDescription>
+                      Choose which type of records you want to view
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="grid grid-cols-2 gap-4 mt-4">
+                    <Button
+                      onClick={() => {
+                        setShowRecordTypeDialog(false);
+                        handleQuickAction("birth-records");
+                      }}
+                      className="flex flex-col items-center gap-2 p-6"
+                    >
+                      <FileText className="w-8 h-8" />
+                      <span>Birth Records</span>
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        setShowRecordTypeDialog(false);
+                        handleQuickAction("death-records");
+                      }}
+                      className="flex flex-col items-center gap-2 p-6"
+                    >
+                      <ScrollText className="w-8 h-8" />
+                      <span>Death Records</span>
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
               <button 
                 onClick={() => handleQuickAction("certificates")}
                 className="p-4 bg-accent text-accent-foreground rounded-lg hover:bg-accent/90 transition-colors"

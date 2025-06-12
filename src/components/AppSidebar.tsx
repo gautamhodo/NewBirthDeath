@@ -82,7 +82,6 @@ export function AppSidebar({ activeSection, setActiveSection }: AppSidebarProps)
       <SidebarContent className="bg-black">
         <SidebarGroup>
           <SidebarGroupLabel className="text-white font-bold">
-            Navigation
           </SidebarGroupLabel>
           <SidebarGroupContent>
             {/* Search Bar */}

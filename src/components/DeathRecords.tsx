@@ -139,10 +139,17 @@ export function DeathRecords({ setActiveSection }: DeathRecordsProps) {
           <ArrowLeft className="w-4 h-4" />
           Back
         </Button>
-        <div>
-          <h2 className="text-2xl font-bold text-foreground mb-2">Death Records</h2>
-          <p className="text-muted-foreground">View and manage death registration records</p>
         </div>
+        <div>
+        <div className="space-y-6">
+        <div className="w-100 h-100 bg-secondary p-5  rounded "  
+        style={{backgroundColor:"white",borderTop:"5px solid #0d92ae"}}>
+          <h2 className="text-2xl font-bold text-foreground mb-2 mx-5">Death Records</h2>
+          <p className="text-muted-foreground mx-5">View and manage death registration records</p>
+        </div>
+        </div>
+        <br></br>
+        <br></br>
         <div className="flex items-center gap-4">
           <Button
             onClick={exportToExcel}

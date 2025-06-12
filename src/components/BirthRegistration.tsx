@@ -96,6 +96,9 @@ export function BirthRegistration({ setActiveSection }: BirthRegistrationProps) 
       guardianContact: "",
     });
     setDate(undefined);
+
+    // Trigger dashboard refresh
+    setActiveSection("dashboard");
   };
 
   return (
@@ -105,10 +108,15 @@ export function BirthRegistration({ setActiveSection }: BirthRegistrationProps) 
           <ArrowLeft className="w-4 h-4" />
           Back
         </Button>
+        </div>
         <div>
+        <div className="space-y-6">
+        <div className="w-100 h-100 bg-secondary p-5  rounded "  
+        style={{backgroundColor:"white",borderTop:"5px solid #0d92ae"}}>
           <h2 className="text-2xl font-bold text-foreground mb-2">Birth Registration</h2>
           <p className="text-muted-foreground">Register a new birth and generate certificate</p>
         </div>
+      </div>
       </div>
 
       <Card className="form-section">

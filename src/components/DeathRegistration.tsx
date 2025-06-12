@@ -82,6 +82,9 @@ export function DeathRegistration({ setActiveSection }: DeathRegistrationProps) 
     });
     setDateOfBirth(undefined);
     setDateOfDeath(undefined);
+
+    // Trigger dashboard refresh
+    setActiveSection("dashboard");
   };
 
   return (
@@ -91,11 +94,18 @@ export function DeathRegistration({ setActiveSection }: DeathRegistrationProps) 
           <ArrowLeft className="w-4 h-4" />
           Back
         </Button>
+        </div>
         <div>
+        <div className="space-y-6">
+        <div className="w-100 h-100 bg-secondary p-5  rounded "  
+        style={{backgroundColor:"white",borderTop:"5px solid #0d92ae"}}>
           <h2 className="text-2xl font-bold text-foreground mb-2">Death Registration</h2>
           <p className="text-muted-foreground">Register a death and generate certificate</p>
         </div>
       </div>
+      </div>
+      <br></br>
+      <br></br>
 
       <Card className="form-section">
         <CardHeader>

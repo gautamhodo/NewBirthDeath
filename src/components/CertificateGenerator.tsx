@@ -66,12 +66,16 @@ export function CertificateGenerator({ setActiveSection }: CertificateGeneratorP
           <ArrowLeft className="w-4 h-4" />
           Back
         </Button>
+        </div>
         <div>
+        <div className="space-y-6">
+        <div className="w-100 h-100 bg-secondary p-5  rounded "  
+        style={{backgroundColor:"white",borderTop:"5px solid #0d92ae"}}>
           <h2 className="text-2xl font-bold text-foreground mb-2">Certificate Generator</h2>
           <p className="text-muted-foreground">Generate birth and death certificates</p>
         </div>
       </div>
-
+      </div>
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">

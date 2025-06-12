@@ -136,13 +136,21 @@ export function BirthRecords({ setActiveSection }: BirthRecordsProps) {
     <div className="space-y-6">
       <div className="flex items-center gap-4">
         <Button variant="outline" onClick={() => setActiveSection("dashboard")} className="flex items-center gap-2">
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="w-2 h-2" />
           Back
         </Button>
-        <div>
-          <h2 className="text-2xl font-bold text-foreground mb-2">Birth Records</h2>
-          <p className="text-muted-foreground">View and manage birth registration records</p>
         </div>
+        
+        <div>
+        <div className="space-y-6">
+        <div className="w-100 h-100 bg-secondary p-5  rounded "  
+        style={{backgroundColor:"white",borderTop:"5px solid #0d92ae"}}>
+          <h2 className="text-2xl font-bold text-foreground mb-2 mx-5">Birth Records</h2>
+          <p className="text-muted-foreground mx-5">View and manage birth registration records</p>
+        </div>
+        </div>
+        <br></br>
+        <br></br>
         <div className="flex items-center gap-4">
           <Button
             onClick={exportToExcel}
