@@ -11,6 +11,8 @@ import { CalendarIcon, ArrowLeft } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
+import Footer from "./Footer";
+
 
 interface BirthRegistrationProps {
   setActiveSection: (section: string) => void;
@@ -102,6 +104,7 @@ export function BirthRegistration({ setActiveSection }: BirthRegistrationProps) 
   };
 
   return (
+    <>
     <div className="space-y-6">
       <div className="flex items-center gap-4">
         <Button variant="outline" onClick={() => setActiveSection("dashboard")} className="flex items-center gap-2">
@@ -448,5 +451,7 @@ export function BirthRegistration({ setActiveSection }: BirthRegistrationProps) 
         </Button>
       </div>
     </div>
+      <Footer />  
+      </>
   );
 }

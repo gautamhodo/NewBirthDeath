@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText, ScrollText, Users, Award } from "lucide-react";
+import Footer from "./Footer";
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { BirthDetails } from "@/components/BirthDetails";
@@ -126,6 +127,7 @@ export function Dashboard({ setActiveSection }: DashboardProps) {
   ];
 
   return (
+    <>
     <div className="space-y-6">
       <div className="w-100 h-100 bg-secondary p-5  rounded "  style={{backgroundColor:"white",borderTop:"5px solid #0d92ae"}}>
         <h2 className="text-2xl font-bold text-foreground mb-2 mx-5">Dashboard</h2>
@@ -266,5 +268,7 @@ export function Dashboard({ setActiveSection }: DashboardProps) {
         </Card>
       </div>
     </div>
+    <Footer />
+    </>
   );
 }

@@ -1,4 +1,4 @@
-import { Settings, Bell, Search, User } from "lucide-react";
+import { Settings, Bell, Search, User, Plus, Calendar, Clock } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,6 +33,7 @@ export function TopNavigation({ activeSection, setActiveSection }: TopNavigation
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
+  const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
   useEffect(() => {
     // Load notifications from localStorage - showing newest registrations first
@@ -64,6 +65,13 @@ export function TopNavigation({ activeSection, setActiveSection }: TopNavigation
       ...deathRecords.map((record: any) => ({ ...record, type: 'death' }))
     ];
     setAllProfiles(profiles);
+
+    // Update date and time every second
+    const timer = setInterval(() => {
+      setCurrentDateTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
   }, []);
 
   const handleSettingsClick = (setting: string) => {
@@ -127,19 +135,19 @@ export function TopNavigation({ activeSection, setActiveSection }: TopNavigation
 
   return (
     <>
-      <nav className="bg-black border-b border-gray-800 w-full">
+      <nav className="bg-black border-b border-gray-800 w-full fixed top-0 left-0 z-50 shadow-lg ">
         <div className="flex items-center justify-between h-16 px-6">
           {/* Left side - Logo and navigation */}
           <div className="flex items-center gap-6">
             {/* Logo */}
             <div className="flex items-center gap-3">
-              {/* <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+              <div className="w-25 h-10 rounded-lg flex items-center justify-center">
                 <img 
-                  src="/lovable-uploads/c69a8ea2-6100-4c61-8746-ba217b7b62bc.png" 
+                  src="src/assets/hodo.png" 
                   alt="HODO Hospital Logo" 
                   className="w-8 h-8 object-contain"
                 />
-              </div> */}
+              </div>
             </div>
             
             {/* Navigation items */}
@@ -161,15 +169,16 @@ export function TopNavigation({ activeSection, setActiveSection }: TopNavigation
           </div>
           
           {/* Center - Search Bar */}
-          <div className="flex-1 max-w-md mx-4 relative">
+          <div className="flex-1 max-w-md relative ml-auto">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
               <Input
                 type="text"
                 placeholder="Search by name or ID..."
                 value={searchQuery}
                 onChange={(e) => handleSearch(e.target.value)}
                 className="pl-10 bg-white text-black placeholder-gray-500 focus:border-primary"
+                
               />
             </div>
             
@@ -198,8 +207,26 @@ export function TopNavigation({ activeSection, setActiveSection }: TopNavigation
             )}
           </div>
           
-          {/* Right side - Notifications, Profile, Settings */}
+          {/* Right side - New Register, Notifications, Profile, Settings */}
           <div className="flex items-center gap-2">
+            {/* New Register Button */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="ml-7 flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 rounded-md transition-colors">
+                  <Plus className="w-4 h-4" />
+                  New Register
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56 bg-white border border-gray-200 shadow-lg">
+                <DropdownMenuItem onClick={() => setActiveSection("birth-registration")}>
+                  Birth Registration
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setActiveSection("death-registration")}>
+                  Death Registration
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             {/* Notifications */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -320,6 +347,33 @@ export function TopNavigation({ activeSection, setActiveSection }: TopNavigation
           </div>
         </div>
       </nav>
+      {/* Date and Time Display */}
+      <div className="bg-#e5e7eb border-none border-#e5e7eb w-full">
+        <div className="flex items-center justify-end gap-4 px-6 py-2">
+          <div className="flex items-center gap-2 text-black">
+            <Calendar className="w-5 h-5" />
+            <span className="text-sm">
+              {currentDateTime.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+              })}
+            </span>
+          </div>
+          <div className="flex items-center gap-2 text-black">
+            <Clock className="w-5 h-5" />
+            <span className="text-sm">
+              {currentDateTime.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit',
+                hour12: true 
+              })}
+            </span>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

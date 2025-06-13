@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { FileText, Search, Award, ArrowLeft } from "lucide-react";
 import { BirthCertificate } from "@/components/BirthCertificate";
 import { DeathCertificate } from "@/components/DeathCertificate";
+import Footer from "./Footer";
 
 interface CertificateGeneratorProps {
   setActiveSection: (section: string) => void;
@@ -60,6 +61,7 @@ export function CertificateGenerator({ setActiveSection }: CertificateGeneratorP
   }
 
   return (
+    <>
     <div className="space-y-6">
       <div className="flex items-center gap-4">
         <Button variant="outline" onClick={() => setActiveSection("dashboard")} className="flex items-center gap-2">
@@ -178,5 +180,7 @@ export function CertificateGenerator({ setActiveSection }: CertificateGeneratorP
         </CardContent>
       </Card>
     </div>
+    <Footer />
+    </>
   );
 }

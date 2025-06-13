@@ -6,6 +6,12 @@ import {
   Shield,
   Award,
   Search,
+  ArrowRight,
+  LucideSquareArrowUpRight,
+  ArrowBigRight,
+  ArrowRightIcon,
+  ArrowRightSquare,
+  ArrowUpRightIcon,
 } from "lucide-react";
 import {
   Sidebar,
@@ -29,32 +35,32 @@ interface AppSidebarProps {
 const menuItems = [
   {
     title: "Dashboard",
-    icon: Home,
+    icon: ArrowUpRightIcon,
     id: "dashboard",
   },
   {
     title: "Birth Registration",
-    icon: FileText,
+    icon: ArrowUpRightIcon,
     id: "birth-registration",
   },
   {
     title: "Death Registration",
-    icon: ScrollText,
+    icon: ArrowUpRightIcon,
     id: "death-registration",
   },
   {
     title: "Birth Records",
-    icon: Users,
+    icon: ArrowUpRightIcon,
     id: "birth-records",
   },
   {
     title: "Death Records",
-    icon: Shield,
+    icon: ArrowUpRightIcon,
     id: "death-records",
   },
   {
     title: "Certificates",
-    icon: Award,
+    icon: ArrowUpRightIcon,
     id: "certificates",
   },
 ];
@@ -70,12 +76,12 @@ export function AppSidebar({ activeSection, setActiveSection }: AppSidebarProps)
     <Sidebar className="border-r border-sidebar-border bg-black">
       <SidebarHeader className="bg-black">
         <div className="position-relative d-inline-block text-center">
-          <div className="w-20 ms-10">
+          {/* <div className="w-208" style={{marginLeft:"100px"}}>
             <img
               src="/lovable-uploads/c69a8ea2-6100-4c61-8746-ba217b7b62bc.png"
               alt="HODO Hospital Logo"
             />
-          </div>
+          </div> */}
         </div>
       </SidebarHeader>
 
@@ -85,7 +91,7 @@ export function AppSidebar({ activeSection, setActiveSection }: AppSidebarProps)
           </SidebarGroupLabel>
           <SidebarGroupContent>
             {/* Search Bar */}
-            <div className="relative mb-4 px-3">
+            <div className="relative mb-4 px-3" style={{marginTop:"30px"}}>
               <Search className="absolute left-6 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
               <Input
                 type="text"
@@ -96,11 +102,12 @@ export function AppSidebar({ activeSection, setActiveSection }: AppSidebarProps)
               />
             </div>
 
-            <SidebarMenu>
+            <SidebarMenu >
               {filteredMenuItems.map((item) => (
-                <SidebarMenuItem key={item.id}>
+                <SidebarMenuItem key={item.id} style={{marginTop:"10px" ,height:"40px"}}>
                   <SidebarMenuButton asChild>
                     <button
+                     style={{height:"50px"}}
                       onClick={() => setActiveSection(item.id)}
                       className={`flex items-center gap-3 w-full text-left p-3 rounded-lg transition-colors ${
                         activeSection === item.id

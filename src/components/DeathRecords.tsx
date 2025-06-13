@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Eye, FileText, Search, Download, Trash2, Edit2, Save, ArrowLeft } from "lucide-react";
 import { DeathDetails } from "@/components/DeathDetails";
 import * as XLSX from 'xlsx';
+import Footer from "./Footer";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -133,6 +134,7 @@ export function DeathRecords({ setActiveSection }: DeathRecordsProps) {
   }
 
   return (
+    <>
     <div className="space-y-6">
       <div className="flex items-center gap-4">
         <Button variant="outline" onClick={() => setActiveSection("dashboard")} className="flex items-center gap-2">
@@ -351,5 +353,7 @@ export function DeathRecords({ setActiveSection }: DeathRecordsProps) {
         </CardContent>
       </Card>
     </div>
+    <Footer />
+    </>
   );
 }
