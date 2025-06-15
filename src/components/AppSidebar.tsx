@@ -11,7 +11,7 @@ import {
   ArrowBigRight,
   ArrowRightIcon,
   ArrowRightSquare,
-  ArrowUpRightIcon,
+  ChevronRightIcon,
 } from "lucide-react";
 import {
   Sidebar,
@@ -35,32 +35,32 @@ interface AppSidebarProps {
 const menuItems = [
   {
     title: "Dashboard",
-    icon: ArrowUpRightIcon,
+    icon: ChevronRightIcon,
     id: "dashboard",
   },
   {
     title: "Birth Registration",
-    icon: ArrowUpRightIcon,
+    icon: ChevronRightIcon,
     id: "birth-registration",
   },
   {
     title: "Death Registration",
-    icon: ArrowUpRightIcon,
+    icon: ChevronRightIcon,
     id: "death-registration",
   },
   {
     title: "Birth Records",
-    icon: ArrowUpRightIcon,
+    icon: ChevronRightIcon,
     id: "birth-records",
   },
   {
     title: "Death Records",
-    icon: ArrowUpRightIcon,
+    icon: ChevronRightIcon,
     id: "death-records",
   },
   {
     title: "Certificates",
-    icon: ArrowUpRightIcon,
+    icon: ChevronRightIcon,
     id: "certificates",
   },
 ];
@@ -111,12 +111,12 @@ export function AppSidebar({ activeSection, setActiveSection }: AppSidebarProps)
                       onClick={() => setActiveSection(item.id)}
                       className={`flex items-center gap-3 w-full text-left p-3 rounded-lg transition-colors ${
                         activeSection === item.id
-                          ? "bg-[#80def7] text-white"
-                          : "text-white hover:bg-[#80def7] hover:text-black"
+                          ? "bg-[#80def7] text-black"
+                          : "text-white hover:bg-[#80def7] hover:text-white "
                       }`}
                     >
                       <item.icon className="w-5 h-5" />
-                      <span>{item.title}</span>
+                      <span className="font-bold">{item.title}</span>
                     </button>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
